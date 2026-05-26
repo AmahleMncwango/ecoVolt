@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoVolt - Admin Panel</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <script>
+    // Check if user is logged in
+    const savedUser = localStorage.getItem('ecovolt_user');
+    if (!savedUser) {
+        window.location.href = '/login.html';
+    }
+</script>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-bolt"></i>
+                <span>EcoVolt</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a>
+                <a href="admin.html" class="active"><i class="fas fa-building"></i> Admin</a>
+            </div>
+            <div class="auth-buttons" id="authButtons">
+                <button class="btn-login" onclick="showLoginModal()"><i class="fas fa-sign-in-alt"></i> Login</button>
+                <button class="btn-register" onclick="showRegisterModal()"><i class="fas fa-user-plus"></i> Register</button>
+            </div>
+            <div class="user-info" id="userInfo" style="display: none;">
+                <i class="fas fa-user-circle"></i>
+                <span id="userName"></span>
+                <button onclick="logout()" class="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        <h1><i class="fas fa-cog"></i> Admin Panel</h1>
+
+        <div class="admin-tabs">
+            <button class="tab-btn active" onclick="showTab('buildings')"><i class="fas fa-building"></i> Buildings</button>
+            <button class="tab-btn" onclick="showTab('rooms')"><i class="fas fa-door-open"></i> Rooms</button>
+            <button class="tab-btn" onclick="showTab('alerts')"><i class="fas fa-bell"></i> Alerts Management</button>
+            <button class="tab-btn" onclick="showTab('analytics')"><i class="fas fa-chart-bar"></i> Advanced Analytics</button>
+        </div>
+
+        <div id="buildingsTab" class="tab-content active">
+            <div class="admin-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-plus-circle"></i> Add New Building</h3>
+                </div>
+                <div class="card-body">
+                    <form id="buildingForm" class="admin-form">
+                        <input type="text" placeholder="Building Name" id="buildingName" required>
+                        <input type="text" placeholder="Location" id="buildingLocation" required>
+                        <input type="number" placeholder="Number of Floors" id="buildingFloors" required>
+                        <button type="submit" class="btn-submit">Add Building</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="admin-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-list"></i> Buildings List</h3>
+                </div>
+                <div class="card-body">
+                    <div id="buildingsList" class="items-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="roomsTab" class="tab-content">
+            <div class="admin-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-plus-circle"></i> Add New Room</h3>
+                </div>
+                <div class="card-body">
+                    <form id="roomForm" class="admin-form">
+                        <select id="roomBuilding" required></select>
+                        <input type="text" placeholder="Room Number" id="roomNumber" required>
+                        <select id="roomType" required>
+                            <option value="lecture">Lecture Hall</option>
+                            <option value="lab">Laboratory</option>
+                            <option value="office">Office</option>
+                            <option value="conference">Conference Room</option>
+                        </select>
+                        <input type="number" placeholder="Capacity" id="roomCapacity" required>
+                        <button type="submit" class="btn-submit">Add Room</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="admin-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-list"></i> Rooms List</h3>
+                </div>
+                <div class="card-body">
+                    <div id="roomsList" class="items-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="alertsTab" class="tab-content">
+            <div class="admin-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-bell"></i> Active Alerts</h3>
+                </div>
+                <div class="card-body">
+                    <div id="alertsManagement" class="alerts-management"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="analyticsTab" class="tab-content">
+            <div class="analytics-grid">
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-line"></i> Energy Trends</h3>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-pie"></i> Usage by Building</h3>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="buildingChart"></canvas>
+                    </div>
+                </div>
+                <div class="admin-card wide">
+                    <div class="card-header">
+                        <h3><i class="fas fa-file-alt"></i> Reports</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="report-buttons">
+                            <button onclick="generateReport('daily')" class="btn-report"><i class="fas fa-calendar-day"></i> Daily Report</button>
+                            <button onclick="generateReport('weekly')" class="btn-report"><i class="fas fa-calendar-week"></i> Weekly Report</button>
+                            <button onclick="generateReport('monthly')" class="btn-report"><i class="fas fa-calendar-alt"></i> Monthly Report</button>
+                        </div>
+                        <div id="reportOutput" class="report-output"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLoginModal()">&times;</span>
+            <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
+            <form id="loginForm">
+                <input type="email" placeholder="Email" id="loginEmail" required>
+                <input type="password" placeholder="Password" id="loginPassword" required>
+                <button type="submit" class="btn-submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeRegisterModal()">&times;</span>
+            <h2><i class="fas fa-user-plus"></i> Register</h2>
+            <form id="registerForm">
+                <input type="text" placeholder="Full Name" id="regName" required>
+                <input type="email" placeholder="Email" id="regEmail" required>
+                <input type="password" placeholder="Password" id="regPassword" required>
+                <select id="regRole">
+                    <option value="admin">Administrator</option>
+                    <option value="maintenance">Maintenance Staff</option>
+                    <option value="management">University Management</option>
+                </select>
+                <button type="submit" class="btn-submit">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/socket.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
