@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Rooms</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo"><img src="/logo.png" alt="Logo"><span>EcoVolt<span>Smart Energy</span></span></div>
+        <div class="nav-links"><a href="/dashboard.html">Dashboard</a><button onclick="logout()">Logout</button></div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <h2>➕ Add Room</h2>
+            <select id="buildingId"></select>
+            <input type="text" id="roomNumber" placeholder="Room Number">
+            <input type="number" id="thresholdWatt" placeholder="Alert Threshold (W)" value="50">
+            <button onclick="addRoom()">Add</button>
+        </div>
+        <div class="card">
+            <h2>📋 Rooms</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Building</th>
+                        <th>Room</th>
+                        <th>Threshold</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="roomsList"></tbody>
+            </table>
+        </div>
+    </div>
+    <script src="/js/api.js"></script>
+    <script src="/js/rooms.js"></script>
+</body>
+
+</html>

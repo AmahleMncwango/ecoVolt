@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Buildings</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo">🌿 EcoVolt<span>Buildings</span></div>
+        <div class="nav-links">
+            <a href="/dashboard.html">Dashboard</a>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <h2>➕ Add Building</h2>
+            <input type="text" id="buildingName" placeholder="Name">
+            <input type="text" id="buildingLocation" placeholder="Location">
+            <button onclick="addBuilding()">Add</button>
+        </div>
+        <div class="card">
+            <h2>📋 All Buildings</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Location</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="buildingsList"></tbody>
+            </table>
+        </div>
+    </div>
+    <script src="/js/api.js"></script>
+    <script src="/js/buildings.js"></script>
+</body>
+
+</html>

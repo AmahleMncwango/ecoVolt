@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Devices</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo"><img src="logo.png" alt=""><span>EcoVolt<span>Devices</span></span></div>
+        <div class="nav-links"><a href="/dashboard.html">Dashboard</a><button onclick="logout()">Logout</button></div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <h2>➕ Add Device</h2><select id="roomSelect"></select><input type="text" id="deviceName"
+                placeholder="Device Name"><input type="text" id="deviceType"
+                placeholder="Type (Lighting/IT/HVAC)"><input type="number" id="typicalPower"
+                placeholder="Typical Power (W)" value="100"><button onclick="addDevice()">Add</button>
+        </div>
+        <div class="card">
+            <h2>📋 Devices</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Room</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Typical(W)</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="devicesList"></tbody>
+            </table>
+        </div>
+    </div>
+    <script src="/js/api.js"></script>
+    <script src="/js/devices.js"></script>
+</body>
+
+</html>

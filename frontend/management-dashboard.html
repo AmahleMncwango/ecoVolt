@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EcoVolt | Management Insights</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <img src="logo.png" alt="EcoVolt"
+                onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%232fbf57%22/%3E%3Ctext x=%2250%22 y=%2265%22 text-anchor=%22middle%22 fill=%22%230b1f17%22 font-size=%2240%22 font-weight=%22bold%22%3EEV%3C/text%3E%3C/svg%3E'">
+            <span>EcoVolt<span>Executive Insights</span></span>
+        </div>
+        <div class="nav-links">
+            <span id="roleBadge" class="role-badge"></span>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1 class="page-title">Management Dashboard <small>Strategic energy analytics</small></h1>
+
+        <div class="stat-grid" id="statGrid"></div>
+
+        <div class="grid-2">
+            <div class="card">
+                <h2>📊 Average Power by Building</h2>
+                <canvas id="buildingChart" height="220"></canvas>
+            </div>
+            <div class="ai-card">
+                <h3>🤖 Predictive Analytics</h3>
+                <div id="aiPrediction">Loading…</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🌱 Sustainability Report</h2>
+            <div id="sustainability"></div>
+        </div>
+
+        <div class="card">
+            <h2>📈 Building Performance</h2>
+            <div style="overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr><th>Building</th><th>Devices</th><th>Avg Power (W)</th><th>Total Power (W)</th><th>Open Alerts</th></tr>
+                    </thead>
+                    <tbody id="summaryBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/management-dashboard.js"></script>
+</body>
+</html>
